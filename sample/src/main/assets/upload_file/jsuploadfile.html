@@ -19,7 +19,8 @@
      */
     function getFileUrl(sourceId) {
         var url;
-        console.log(navigator.userAgent);
+        console.log(
+        .userAgent);
         if (navigator.userAgent.indexOf("MSIE") >= 1) { // IE
             url = document.getElementById(sourceId).value;
         } else if (navigator.userAgent.indexOf("Firefox") > 0) { // Firefox
