@@ -58,7 +58,9 @@ public class CommonActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_common);
 
 		mFrameLayout = (FrameLayout) this.findViewById(R.id.container_framelayout);
-		int key = getIntent().getIntExtra(TYPE_KEY, -1);
+		int key =
+				//FLAG_GUIDE_DICTIONARY_USE_IN_FRAGMENT;
+				getIntent().getIntExtra(TYPE_KEY, -1);
 		mFragmentManager = this.getSupportFragmentManager();
 		openFragment(key);
 
@@ -78,7 +80,7 @@ public class CommonActivity extends AppCompatActivity {
             /*Fragment 使用AgenWeb*/
 			case FLAG_GUIDE_DICTIONARY_USE_IN_FRAGMENT: //项目中请使用常量代替0 ， 代码可读性更高
 				ft.add(R.id.container_framelayout, mAgentWebFragment = AgentWebFragment.getInstance(mBundle = new Bundle()), AgentWebFragment.class.getName());
-				mBundle.putString(AgentWebFragment.URL_KEY, "https://you.163.com/");//https://m.vip.com/?source=www&jump_https=1
+				mBundle.putString(AgentWebFragment.URL_KEY, "http://10.1.14.53:9000/#/");//https://m.vip.com/?source=www&jump_https=1 https://you.163.com/
 				break;
 			/*下载文件*/
 			case FLAG_GUIDE_DICTIONARY_FILE_DOWNLOAD:

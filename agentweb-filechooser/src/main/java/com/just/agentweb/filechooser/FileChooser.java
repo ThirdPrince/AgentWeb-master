@@ -288,8 +288,8 @@ public class FileChooser {
 			this.mAgentWebUIController
 					.get()
 					.onSelectItemsPrompt(this.mWebView, mWebView.getUrl(),
-							new String[]{mActivity.getString(R.string.agentweb_camera),
-									mActivity.getString(R.string.agentweb_file_chooser)}, getCallBack());
+							new String[]{mActivity.getString(R.string.web_app_camera),
+									mActivity.getString(R.string.web_app_pic)}, getCallBack());
 			LogUtils.i(TAG, "open");
 		}
 

@@ -113,7 +113,7 @@ public class BaseWebActivity extends AppCompatActivity {
     };
 
     public String getUrl() {
-        return "https://m.jd.com/";
+        return "http://10.1.14.53:9000/#/";//"https://m.jd.com/"
     }
 
 

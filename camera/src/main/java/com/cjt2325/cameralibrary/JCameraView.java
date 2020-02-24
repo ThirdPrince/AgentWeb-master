@@ -183,7 +183,7 @@ public class JCameraView extends FrameLayout implements CameraInterface.CameraOp
             @Override
             public void takePictures() {
                 mSwitchCamera.setVisibility(INVISIBLE);
-                mFlashLamp.setVisibility(INVISIBLE);
+                //mFlashLamp.setVisibility(INVISIBLE);
                 machine.capture();
             }
 
@@ -198,7 +198,7 @@ public class JCameraView extends FrameLayout implements CameraInterface.CameraOp
             public void recordShort(final long time) {
                 mCaptureLayout.setTextWithAnimation("录制时间过短");
                 mSwitchCamera.setVisibility(VISIBLE);
-                mFlashLamp.setVisibility(VISIBLE);
+                //mFlashLamp.setVisibility(VISIBLE);
                 postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -437,7 +437,7 @@ public class JCameraView extends FrameLayout implements CameraInterface.CameraOp
                 break;
         }
         mSwitchCamera.setVisibility(VISIBLE);
-        mFlashLamp.setVisibility(VISIBLE);
+       // mFlashLamp.setVisibility(VISIBLE);
         mCaptureLayout.resetCaptureLayout();
     }
 
