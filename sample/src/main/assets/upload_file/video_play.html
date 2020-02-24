@@ -1,0 +1,91 @@
+<html>  
+<body>  
+<input type="file" id="file" onchange="onInputFileChange()">
+<form id="form">
+    <input id="file_upload" type="file" name="" id="" accept=*/*,"
+           capture="camera" multiple="multiple">
+</form>
+<video id="audio_id" controls autoplay loop>Your browser can't support HTML5 Audio</video>
+<script type="text/javascript" src="event.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name="format-detection" content="telephone=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta http-equiv="Expires" content="0">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache">
+<link rel="stylesheet" type="text/css" href="./upload.css">
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script>  
+function onInputFileChange() {  
+   var file = document.getElementById('file').files[0];  
+   var url = URL.createObjectURL(file);  
+   console.log(url);  
+   document.getElementById("audio_id").src = url;  
+}
+
+function getFileUrl(sourceId) {
+        var url;
+        console.log(navigator.userAgent);
+        if (navigator.userAgent.indexOf("MSIE") >= 1) { // IE
+            url = document.getElementById(sourceId).value;
+        } else if (navigator.userAgent.indexOf("Firefox") > 0) { // Firefox
+            url = window.URL.createObjectURL(document.getElementById(sourceId).files.item(0));
+        } else if (navigator.userAgent.indexOf("Chrome") > 0) { // Chrome
+            url = window.URL.createObjectURL(document.getElementById(sourceId).files.item(0));
+        }
+        return url;
+    }
+  $(function() {
+        form.reset(); //清除浏览器记录的上次记录
+        var file;
+        $(form).on("change", "#file_upload", function() {
+
+            // alert("call back")
+            var $file = $(this);
+            var fileObj = $file[0];
+            var windowURL = window.URL || window.webkitURL;
+            var dataURL;
+            var $img = $("#audio_id");
+
+            if (fileObj && fileObj.files && fileObj.files[0]) {
+
+                dataURL = windowURL.createObjectURL(fileObj.files[0]);
+                //dataURL = getFileUrl('file_upload');;
+                console.log(" upload:"+dataURL+"    file:"+fileObj.files[0]);
+                $img.attr('src', dataURL);
+            } else {
+                console.log("else  upload");
+                dataURL = $file.val();
+
+
+
+                var imgObj = document.getElementById("preview");
+                // 两个坑:
+                // 1、在设置filter属性时，元素必须已经存在在DOM树中，动态创建的Node，也需要在设置属性前加入到DOM中，先设置属性在加入，无效；
+                // 2、src属性需要像下面的方式添加，上面的两种方式添加，无效；
+                imgObj.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale)";
+                imgObj.filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = dataURL;
+
+            }
+            //输出选中结果
+            console.log(this.value);
+            alert(this.value);
+            //每次选中都保存旧元素，并使用新的控件替换
+            $(this).clone().replaceAll(file = this);
+        }).submit(function() {
+            //提交时把之前保存的旧元素替换回去
+            $("#file_upload").replaceWith(file);
+        });
+
+         $(form2).on("change", "#file_upload2", function() {
+            alert(this.value);
+            document.getElementById("preview_path").innerText=this.value;
+         }).submit(function() {
+            //提交时把之前保存的旧元素替换回去
+            $("#file_upload2").replaceWith(file);
+        });
+    });
+</script>  
+</body>  
+</html>  

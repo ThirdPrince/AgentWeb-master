@@ -50,7 +50,7 @@ public class CameraActivity extends AppCompatActivity {
         jCameraView.setSaveVideoPath(AgentWebUtils.getAgentWebFilePath(this));
         //jCameraView.setSaveVideoPath(Environment.getExternalStorageDirectory().getPath() + File.separator + "JCamera");
         jCameraView.setFeatures(JCameraView.BUTTON_STATE_BOTH);
-        jCameraView.setTip("JCameraView Tip");
+       // jCameraView.setTip("JCameraView Tip");
         jCameraView.setMediaQuality(JCameraView.MEDIA_QUALITY_MIDDLE);
         jCameraView.setErrorLisenter(new ErrorListener() {
             @Override

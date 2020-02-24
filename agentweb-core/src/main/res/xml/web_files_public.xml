@@ -4,4 +4,8 @@
     <external-cache-path
         name="agenweb_files"
         path="agentweb-cache"/>
+
+    <external-path
+        name="jcamera"
+        path="JCamera"/>
 </paths>

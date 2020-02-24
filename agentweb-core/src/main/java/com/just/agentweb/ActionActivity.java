@@ -211,12 +211,12 @@ public  class ActionActivity extends Activity {
                 mChooserListener = null;
                 finish();
             }
-            Intent intent = AgentWebUtils.getIntentVideoCompat(this, mFile);
+            //Intent intent = AgentWebUtils.getIntentVideoCompat(this, mFile);
 
             // 指定开启系统相机的Action
-            mUri = intent.getParcelableExtra(EXTRA_OUTPUT);
-            //CameraActivity.startActivity(this);
-            this.startActivityForResult(intent, REQUEST_CODE);
+           // mUri = intent.getParcelableExtra(EXTRA_OUTPUT);
+            CameraActivity.startActivity(this);
+            //this.startActivityForResult(intent, REQUEST_CODE);
         } catch (Throwable ignore) {
             LogUtils.e(TAG, "找不到系统相机");
             if (mChooserListener != null) {
