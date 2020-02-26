@@ -3,8 +3,11 @@
 
     <external-cache-path
         name="agenweb_files"
-        path="agentweb-cache"/>
+        path="."/>
 
+    <external-files-path
+        name="compress_image"
+        path="."/>
     <external-path
         name="jcamera"
         path="JCamera"/>

@@ -63,6 +63,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 
+import static android.content.Context.POWER_SERVICE;
 import static com.just.agentweb.ActionActivity.KEY_ACTION;
 import static com.just.agentweb.ActionActivity.KEY_FILE_CHOOSER_INTENT;
 import static com.just.agentweb.ActionActivity.KEY_FROM_INTENTION;
@@ -273,6 +274,12 @@ public class FileChooser {
 					mVideoState = true;
 				}
 			}
+			if(needCamera)
+			{
+				mCameraState = false;
+				isCustomCamera = true ;//	mCameraState = true;
+				onCameraAction();
+			}
 			if (!needCamera && !needVideo) {
 				touchOffFileChooserAction();
 				return;
@@ -284,14 +291,15 @@ public class FileChooser {
 		}
 
 		LogUtils.i(TAG, "controller:" + this.mAgentWebUIController.get() + "   mAcceptType:" + mAcceptType);
-		if (this.mAgentWebUIController.get() != null) {
+
+	/*	if (this.mAgentWebUIController.get() != null) {
 			this.mAgentWebUIController
 					.get()
 					.onSelectItemsPrompt(this.mWebView, mWebView.getUrl(),
 							new String[]{mActivity.getString(R.string.web_app_camera),
 									mActivity.getString(R.string.web_app_pic)}, getCallBack());
 			LogUtils.i(TAG, "open");
-		}
+		}*/
 
 	}
 

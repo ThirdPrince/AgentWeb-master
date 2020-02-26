@@ -42,6 +42,7 @@ dependencies {
     compileOnly "com.android.support:design:${SUPPORT_LIB_VERSION}"
     compileOnly "com.android.support:support-v4:${SUPPORT_LIB_VERSION}"
     implementation project(':camera')
+    implementation project(path: ':picture_library')
     compileOnly fileTree(include: ['*.jar'], dir: 'providedLibs')
 }
 publish {

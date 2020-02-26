@@ -3,10 +3,7 @@ package com.just.agentweb.sample.app;
 import android.app.Application;
 import android.content.Context;
 import android.text.TextUtils;
-
-import com.squareup.leakcanary.LeakCanary;
 import com.tencent.bugly.crashreport.CrashReport;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -34,12 +31,12 @@ public class App extends Application {
 
             // 初始化Bugly
         CrashReport.initCrashReport(getApplicationContext(), "76d6dda465", false);
-        if (LeakCanary.isInAnalyzerProcess(this)) {
+      /*  if (LeakCanary.isInAnalyzerProcess(this)) {
             // This process is dedicated to LeakCanary for heap analysis.
             // You should not init your app in this process.
             return;
         }
-        LeakCanary.install(this);
+        LeakCanary.install(this);*/
         // Normal app init code...
 
     }

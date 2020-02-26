@@ -49,7 +49,7 @@ public class CameraActivity extends AppCompatActivity {
         //设置视频保存路径
         jCameraView.setSaveVideoPath(AgentWebUtils.getAgentWebFilePath(this));
         //jCameraView.setSaveVideoPath(Environment.getExternalStorageDirectory().getPath() + File.separator + "JCamera");
-        jCameraView.setFeatures(JCameraView.BUTTON_STATE_BOTH);
+        jCameraView.setFeatures(JCameraView.BUTTON_STATE_ONLY_RECORDER);
        // jCameraView.setTip("JCameraView Tip");
         jCameraView.setMediaQuality(JCameraView.MEDIA_QUALITY_MIDDLE);
         jCameraView.setErrorLisenter(new ErrorListener() {
@@ -138,5 +138,13 @@ public class CameraActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         jCameraView.onPause();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent();
+        setResult(RESULT_CANCELED, intent);
+        finish();
     }
 }

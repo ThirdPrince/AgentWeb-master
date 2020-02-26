@@ -29,7 +29,13 @@ import android.support.v7.widget.AppCompatAutoCompleteTextView;
 import android.util.Log;
 import android.webkit.WebChromeClient;
 
+import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.config.PictureConfig;
+import com.luck.picture.lib.config.PictureMimeType;
+import com.luck.picture.lib.entity.LocalMedia;
+
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import static android.provider.MediaStore.EXTRA_OUTPUT;
@@ -52,6 +58,14 @@ public  class ActionActivity extends Activity {
     private static final String TAG = ActionActivity.class.getSimpleName();
     private Action mAction;
     public static final int REQUEST_CODE = 0x254;
+
+    private int chooseMode = PictureMimeType.ofImage();
+
+    private int themeId;
+
+    private List<LocalMedia> selectList = new ArrayList<>();
+
+    private List<LocalMedia> selectListCompress = new ArrayList<>();
 
     public static void start(Activity activity, Action action) {
         Intent mIntent = new Intent(activity, ActionActivity.class);
@@ -82,6 +96,8 @@ public  class ActionActivity extends Activity {
             LogUtils.i(TAG, "savedInstanceState:" + savedInstanceState);
             return;
         }
+
+        themeId  = R.style.picture_default_style;
        //startActivity(new Intent(this,CameraActivity.class));
         Intent intent = getIntent();
         mAction = intent.getParcelableExtra(KEY_ACTION);
@@ -105,7 +121,8 @@ public  class ActionActivity extends Activity {
         if (mChooserListener == null) {
             finish();
         }
-        realOpenFileChooser();
+        //realOpenFileChooser();
+        openImage();
     }
 
     private void realOpenFileChooser() {
@@ -137,11 +154,56 @@ public  class ActionActivity extends Activity {
         finish();
     }
 
+    /**
+     * 打开相册
+     */
+    private void openImage()
+    {
+        PictureSelector.create(this)
+                .openGallery(chooseMode)
+                .theme(themeId)
+                .maxSelectNum(1)
+                .minSelectNum(1)
+                .selectionMode( PictureConfig.MULTIPLE )
+                .previewImage(true)
+                .previewVideo(false)
+                .enablePreviewAudio(false) // 是否可播放音频
+                .isCamera(true)
+                .enableCrop(false)
+                .compress(true)
+                .glideOverride(160, 160)
+                .previewEggs(true)
+                .hideBottomControls( true)
+                .isGif(false)
+                .freeStyleCropEnabled(false)
+                .showCropGrid(false)
+                .openClickSound(false)
+                .selectionMedia(selectList)
+                .forResult(PictureConfig.CHOOSE_REQUEST);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_CODE) {
-            chooserActionCallback(resultCode, mUri != null ? new Intent().putExtra(KEY_URI, mUri) : data);
-        }
+       // if (resultCode == Activity.RESULT_OK) {
+            switch (requestCode) {
+                case PictureConfig.CHOOSE_REQUEST:
+                    // 图片选择
+                    selectListCompress = PictureSelector.obtainMultipleResult(data);
+                    Intent compressData = new Intent();
+                    if(selectListCompress.size() >  0) {
+
+                        compressData.putExtra("path", selectListCompress.get(0).getCompressPath());
+                    }
+                        chooserActionCallback(resultCode, mUri != null ? new Intent().putExtra(KEY_URI, mUri) : compressData);
+
+                    break;
+                case REQUEST_CODE :
+                    chooserActionCallback(resultCode, mUri != null ? new Intent().putExtra(KEY_URI, mUri) : data);
+             break;
+
+            }
+
+
     }
 
     private void permission(Action action) {
@@ -186,7 +248,8 @@ public  class ActionActivity extends Activity {
             //Intent intent = AgentWebUtils.getIntentCaptureCompat(this, mFile);
             // 指定开启系统相机的Action
            // mUri = intent.getParcelableExtra(EXTRA_OUTPUT);
-            CameraActivity.startActivity(this);
+           // CameraActivity.startActivity(this);
+            openImage();
             //this.startActivityForResult(intent, REQUEST_CODE);
         } catch (Throwable ignore) {
             LogUtils.e(TAG, "找不到系统相机");

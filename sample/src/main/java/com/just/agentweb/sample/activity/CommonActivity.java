@@ -1,15 +1,20 @@
 package com.just.agentweb.sample.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.FrameLayout;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.just.agentweb.sample.R;
 import com.just.agentweb.sample.common.FragmentKeyDown;
 import com.just.agentweb.sample.fragment.AgentWebFragment;
@@ -21,6 +26,8 @@ import com.just.agentweb.sample.fragment.JsAgentWebFragment;
 import com.just.agentweb.sample.fragment.JsbridgeWebFragment;
 import com.just.agentweb.sample.fragment.SmartRefreshWebFragment;
 import com.just.agentweb.sample.fragment.VasSonicFragment;
+
+import java.lang.ref.WeakReference;
 
 import static com.just.agentweb.sample.activity.MainActivity.FLAG_GUIDE_DICTIONARY_BOUNCE_EFFACT;
 import static com.just.agentweb.sample.activity.MainActivity.FLAG_GUIDE_DICTIONARY_CUSTOM_PROGRESSBAR;
@@ -51,6 +58,42 @@ public class CommonActivity extends AppCompatActivity {
 	public static final String TYPE_KEY = "type_key";
 	private FragmentManager mFragmentManager;
 
+	/**
+	 * 退出应用
+	 */
+	private static final  int EXIT_APP = 1025 ;
+
+
+	private static class MyHandler extends Handler
+	{
+		private final WeakReference<CommonActivity> mActivity ;
+		public MyHandler(CommonActivity context)
+		{
+			mActivity = new WeakReference<CommonActivity>(context) ;
+		}
+
+		@Override
+		public void handleMessage(Message msg) {
+			super.handleMessage(msg);
+			CommonActivity mainActivity = mActivity.get();
+			if(mainActivity != null)
+			{
+
+			}
+
+		}
+	}
+	private MyHandler myHandler ;
+
+	private String url ;
+
+   public static  void startActivity(Activity activity ,String url )
+   {
+   	  Intent intent = new Intent(activity,CommonActivity.class);
+	   intent.putExtra(AgentWebFragment.URL_KEY,url);
+	   intent .putExtra(CommonActivity.TYPE_KEY, FLAG_GUIDE_DICTIONARY_USE_IN_FRAGMENT);
+	   activity.startActivity(intent);
+   }
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -58,14 +101,19 @@ public class CommonActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_common);
 
 		mFrameLayout = (FrameLayout) this.findViewById(R.id.container_framelayout);
-		int key =
-				//FLAG_GUIDE_DICTIONARY_USE_IN_FRAGMENT;
-				getIntent().getIntExtra(TYPE_KEY, -1);
+		int key = FLAG_GUIDE_DICTIONARY_USE_IN_FRAGMENT;
+				//getIntent().getIntExtra(TYPE_KEY, -1);
+		url = getIntent().getStringExtra(AgentWebFragment.URL_KEY);
 		mFragmentManager = this.getSupportFragmentManager();
+		myHandler = new MyHandler(this);
 		openFragment(key);
 
 	}
 
+	@Override
+	protected void onNewIntent(Intent intent) {
+		super.onNewIntent(intent);
+	}
 
 	private AgentWebFragment mAgentWebFragment;
 
@@ -80,7 +128,14 @@ public class CommonActivity extends AppCompatActivity {
             /*Fragment 使用AgenWeb*/
 			case FLAG_GUIDE_DICTIONARY_USE_IN_FRAGMENT: //项目中请使用常量代替0 ， 代码可读性更高
 				ft.add(R.id.container_framelayout, mAgentWebFragment = AgentWebFragment.getInstance(mBundle = new Bundle()), AgentWebFragment.class.getName());
-				mBundle.putString(AgentWebFragment.URL_KEY, "http://10.1.14.53:9000/#/");//https://m.vip.com/?source=www&jump_https=1 https://you.163.com/
+				if(TextUtils.isEmpty(url))
+				{
+					mBundle.putString(AgentWebFragment.URL_KEY, "http://10.1.14.53:9000/");
+				}else
+				{
+					mBundle.putString(AgentWebFragment.URL_KEY, url);
+				}
+			//https://m.vip.com/?source=www&jump_https=1 https://you.163.com/
 				break;
 			/*下载文件*/
 			case FLAG_GUIDE_DICTIONARY_FILE_DOWNLOAD:
@@ -183,7 +238,17 @@ public class CommonActivity extends AppCompatActivity {
 			if (mFragmentKeyDown.onFragmentKeyDown(keyCode, event)) {
 				return true;
 			} else {
-				return super.onKeyDown(keyCode, event);
+				if(myHandler.hasMessages(EXIT_APP))
+				{
+					finish();
+					//LocalBroadcastManager.getInstance(this).registerReceiver(gestureReceiver, filter);//注册
+					//System.exit(0);
+				}else {
+					ToastUtils.showShort("再按一次退出程序");
+					myHandler.sendEmptyMessageDelayed(EXIT_APP, 2000);
+				}
+				return true ;
+						//super.onKeyDown(keyCode, event);
 			}
 		}
 

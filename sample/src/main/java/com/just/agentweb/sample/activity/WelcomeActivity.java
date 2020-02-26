@@ -5,15 +5,13 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-
-import com.airbnb.lottie.LottieAnimationView;
 import com.just.agentweb.sample.R;
 
 import static com.just.agentweb.sample.activity.MainActivity.FLAG_GUIDE_DICTIONARY_USE_IN_FRAGMENT;
 
 public class WelcomeActivity extends AppCompatActivity {
 
-    LottieAnimationView lottieAnimationView ;
+   // LottieAnimationView lottieAnimationView ;
 
 
     @Override
@@ -32,10 +30,9 @@ public class WelcomeActivity extends AppCompatActivity {
            //lottieAnimationView = findViewById(R.id.splash_animation);
             //startAnimation(lottieAnimationView, "7782-drone.json");
 
-         /*   startActivity(new Intent(this, CommonActivity.class)
-                    .putExtra(CommonActivity.TYPE_KEY, FLAG_GUIDE_DICTIONARY_USE_IN_FRAGMENT));
-            finish();*/
-           new Handler().postDelayed(new Runnable() {
+            CommonActivity.startActivity(this,"");
+            finish();
+          /* new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     Intent intent = new Intent(WelcomeActivity.this,MainActivity.class);
@@ -43,13 +40,13 @@ public class WelcomeActivity extends AppCompatActivity {
                     finish();
 
                 }
-            },2500);
+            },2500);*/
 
         }
 
     }
 
-    private void startAnimation(LottieAnimationView mLottieAnimationView, String animationName) {
+   /* private void startAnimation(LottieAnimationView mLottieAnimationView, String animationName) {
         mLottieAnimationView.setAnimation(animationName);
         mLottieAnimationView.playAnimation();
     }
@@ -57,5 +54,5 @@ public class WelcomeActivity extends AppCompatActivity {
         if (mLottieAnimationView != null) {
             mLottieAnimationView.cancelAnimation();
         }
-    }
+    }*/
 }

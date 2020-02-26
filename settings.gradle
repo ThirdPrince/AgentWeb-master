@@ -1,1 +1,1 @@
-include ':sample', ':agentweb-core', ':agentweb-filechooser', ':camera'
+include ':sample', ':agentweb-core', ':agentweb-filechooser', ':camera', ':picture_library', ':ucrop', ':zxing', ':qrcodecore'
