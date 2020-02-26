@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.widget.LinearLayout;
@@ -22,6 +23,8 @@ import com.just.agentweb.DefaultWebClient;
 import com.just.agentweb.WebChromeClient;
 import com.just.agentweb.WebViewClient;
 import com.just.agentweb.sample.R;
+import com.just.agentweb.sample.common.CommonWebChromeClient;
+import com.just.agentweb.sample.common.UIController;
 import com.just.agentweb.sample.widget.WebLayout;
 
 /**
@@ -82,8 +85,10 @@ public class BaseWebActivity extends AppCompatActivity {
                 .ready()
                 .go(getUrl());
 
-        //mAgentWeb.getUrlLoader().loadUrl(getUrl());
 
+
+        //mAgentWeb.getUrlLoader().loadUrl(getUrl());
+        mAgentWeb.getWebCreator().getWebView().setOverScrollMode(WebView.OVER_SCROLL_NEVER);
         long n = System.currentTimeMillis();
         Log.i("Info", "init used time:" + (n - p));
 

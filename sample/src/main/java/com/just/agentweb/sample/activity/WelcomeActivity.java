@@ -31,6 +31,8 @@ public class WelcomeActivity extends AppCompatActivity {
             //startAnimation(lottieAnimationView, "7782-drone.json");
 
             CommonActivity.startActivity(this,"");
+            //startActivity(new Intent(this, WebActivity.class));
+            //startActivity();
             finish();
           /* new Handler().postDelayed(new Runnable() {
                 @Override
